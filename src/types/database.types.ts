@@ -19,6 +19,13 @@ export interface Database {
           seal_active: boolean | null;
           last_audit_date: string | null;
           created_at: string;
+          ong_id: string | null;
+          descricao: string | null;
+          missao: string | null;
+          site: string | null;
+          cidade: string | null;
+          area_atuacao: string | null;
+          dados_auditoria: Json | null;
         };
         Insert: {
           id: string;
@@ -29,6 +36,13 @@ export interface Database {
           seal_active?: boolean | null;
           last_audit_date?: string | null;
           created_at?: string;
+          ong_id?: string | null;
+          descricao?: string | null;
+          missao?: string | null;
+          site?: string | null;
+          cidade?: string | null;
+          area_atuacao?: string | null;
+          dados_auditoria?: Json | null;
         };
         Update: {
           id?: string;
@@ -39,6 +53,13 @@ export interface Database {
           seal_active?: boolean | null;
           last_audit_date?: string | null;
           created_at?: string;
+          ong_id?: string | null;
+          descricao?: string | null;
+          missao?: string | null;
+          site?: string | null;
+          cidade?: string | null;
+          area_atuacao?: string | null;
+          dados_auditoria?: Json | null;
         };
         Relationships: [
           {

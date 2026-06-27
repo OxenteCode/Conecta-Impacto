@@ -82,7 +82,11 @@ export function ImpactForest({ companyId }: ImpactForestProps) {
             <div>
               <CardTitle className="text-2xl font-black tracking-tight text-slate-800 dark:text-slate-100 flex items-center gap-2">
                 Bosque do Impacto
-                {isSuffering && <AlertCircle className="w-5 h-5 text-amber-500 animate-pulse" title="Risco de Churn" />}
+                {isSuffering && (
+                  <span title="Risco de Churn">
+                    <AlertCircle className="w-5 h-5 text-amber-500 animate-pulse" />
+                  </span>
+                )}
               </CardTitle>
               <CardDescription className="text-base mt-1">
                 A constância do seu impacto transforma vidas. Cada doação é uma semente plantada.
