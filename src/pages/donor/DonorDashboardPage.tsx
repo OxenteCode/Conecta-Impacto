@@ -45,7 +45,7 @@ export default function DonorDashboardPage() {
   };
 
   const handleCopyWidget = () => {
-    const code = `<iframe src="https://conecta-impacto.com/widget/oxente-code" width="220" height="220" frameborder="0" style="border:none; overflow:hidden;" title="Selo Oficial Conecta Impacto"></iframe>`;
+    const code = `<iframe src="https://conecta-impacto.com/widget/oxente-code" width="220" height="220" frameborder="0" style="border:none; overflow:hidden;" title="Selo Oficial Raízes do Bem"></iframe>`;
     void navigator.clipboard.writeText(code);
     setCopiedWidget(true);
     setTimeout(() => setCopiedWidget(false), 2000);
@@ -507,7 +507,7 @@ export default function DonorDashboardPage() {
                       {copiedWidget ? 'Copiado!' : 'Copiar'}
                     </button>
                     <code className="block break-all max-w-[90%] pr-4 leading-normal">
-                      {`<iframe src="https://conecta-impacto.com/widget/oxente-code" width="220" height="220" frameborder="0" style="border:none;" title="Selo Oficial Conecta Impacto"></iframe>`}
+                      {`<iframe src="https://conecta-impacto.com/widget/oxente-code" width="220" height="220" frameborder="0" style="border:none;" title="Selo Oficial Raízes do Bem"></iframe>`}
                     </code>
                   </div>
                 </div>

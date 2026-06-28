@@ -1,5 +1,5 @@
 /**
- * Tipos base de autenticação e sessão da plataforma Conecta Impacto.
+ * Tipos base de autenticação e sessão da plataforma Raízes do Bem.
  * Define os dois perfis de usuário e a estrutura de sessão persistida.
  */
 

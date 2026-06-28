@@ -41,7 +41,7 @@ export default function AcoesPage() {
   const [ongId, setOngId] = useState<string | null>(null);
 
   useEffect(() => {
-    document.title = 'Minhas Ações — Conecta Impacto';
+    document.title = 'Minhas Ações — Raízes do Bem';
     void loadStatsAndHistory();
   }, [sessao]);
 

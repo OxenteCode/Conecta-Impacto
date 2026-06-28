@@ -48,7 +48,7 @@ export default function MeuPerfilPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    document.title = 'Meu Portal — Conecta Impacto';
+    document.title = 'Meu Portal — Raízes do Bem';
     if (!sessao) return;
 
     // Verificar se o check-in emocional já foi feito hoje

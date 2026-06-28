@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from '@/components/shared/ThemeToggle';
+import { Logo } from '@/components/shared/Logo';
 import {
   LayoutDashboard,
   Users,
@@ -61,14 +62,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
           {/* Logo */}
           <div className="px-3 flex items-center gap-2.5 mb-1">
-            <div className="w-6 h-6 rounded-md bg-primary flex items-center justify-center shrink-0">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <circle cx="6" cy="6" r="4" stroke="white" strokeWidth="1.5" />
-                <path d="M6 3.5V6L7.5 7.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-            </div>
+            <Logo size={24} />
             <div>
-              <p className="text-sm font-bold text-foreground leading-none">Conecta Impacto</p>
+              <p className="text-sm font-bold text-foreground leading-none">Raízes do Bem</p>
               <p className="text-[10px] text-muted-foreground mt-0.5">Gestão de Impacto</p>
             </div>
           </div>
@@ -126,10 +122,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         {/* Mobile Header */}
         <header className="md:hidden flex items-center justify-between px-4 h-13 border-b border-border bg-background sticky top-0 z-30">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-md bg-primary flex items-center justify-center">
-              <Building size={12} className="text-primary-foreground" />
-            </div>
-            <span className="font-bold text-sm text-foreground">Conecta Impacto</span>
+            <Logo size={24} />
+            <span className="font-bold text-sm text-foreground">Raízes do Bem</span>
           </div>
           <div className="flex items-center gap-1">
             <ThemeToggle />

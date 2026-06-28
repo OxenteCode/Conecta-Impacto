@@ -21,6 +21,7 @@ import {
 import { supabase } from '@/lib/supabaseClient';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from '@/components/shared/ThemeToggle';
+import { Logo } from '@/components/shared/Logo';
 import { ImpactForest } from '@/components/impact/ImpactForest';
 import { DonationTracker } from '@/components/impact/DonationTracker';
 
@@ -82,7 +83,7 @@ export default function DonorPage() {
   const [demoProfile, setDemoProfile] = useState<string>('mock-diamante');
 
   useEffect(() => {
-    document.title = 'Área do Doador — Conecta Impacto';
+    document.title = 'Área do Doador — Raízes do Bem';
     void loadStats();
     void loadOngs();
   }, []);
@@ -195,7 +196,7 @@ export default function DonorPage() {
           ong_id: ongSelecionada,
           doador_nome: nomeTitular,
           valor: valorFinal,
-          mensagem: 'Doação registrada na plataforma Conecta Impacto',
+          mensagem: 'Doação registrada na plataforma Raízes do Bem',
           tracking_code: trackingCode
         });
 
@@ -276,10 +277,8 @@ export default function DonorPage() {
       <nav className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur-md">
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
-              <Globe size={14} className="text-primary-foreground" />
-            </div>
-            <span className="font-bold text-sm text-foreground">Conecta Impacto</span>
+            <Logo size={28} />
+            <span className="font-bold text-sm text-foreground">Raízes do Bem</span>
           </div>
           <div className="flex items-center gap-1.5">
             <ThemeToggle />
@@ -878,10 +877,8 @@ export default function DonorPage() {
       <footer className="border-t border-border py-6 px-4 mt-12">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
           <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded-md bg-primary flex items-center justify-center">
-              <Globe size={10} className="text-primary-foreground" />
-            </div>
-            <span>Conecta Impacto © 2026 — Oxente Code</span>
+            <Logo size={20} />
+            <span>Raízes do Bem © 2026 — Oxente Code</span>
           </div>
           <div className="flex items-center gap-4">
             <Link to="/transparencia" className="hover:text-foreground transition-colors">Transparência</Link>

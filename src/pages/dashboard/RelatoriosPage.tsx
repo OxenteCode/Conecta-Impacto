@@ -41,7 +41,7 @@ export default function RelatoriosPage() {
   const [exporting, setExporting] = useState<string | null>(null);
 
   useEffect(() => {
-    document.title = 'Relatórios ESG — Conecta Impacto';
+    document.title = 'Relatórios ESG — Raízes do Bem';
     void loadRelatorio();
   }, []);
 

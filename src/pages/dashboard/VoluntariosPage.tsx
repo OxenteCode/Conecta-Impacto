@@ -48,7 +48,7 @@ export default function VoluntariosPage() {
   const [supportSuccess, setSupportSuccess] = useState<string | null>(null);
 
   useEffect(() => {
-    document.title = 'Gestão de Voluntários — Conecta Impacto';
+    document.title = 'Gestão de Voluntários — Raízes do Bem';
     if (sessao) {
       void loadVolunteers();
     }

@@ -40,7 +40,7 @@ export default function BemEstarPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    document.title = 'Meu Bem-Estar — Conecta Impacto';
+    document.title = 'Meu Bem-Estar — Raízes do Bem';
     if (!sessao) return;
 
     // Verificar localStorage primeiro para agilizar UI

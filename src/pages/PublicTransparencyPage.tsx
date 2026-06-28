@@ -12,6 +12,7 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
 import { ThemeToggle } from '@/components/shared/ThemeToggle';
+import { Logo } from '@/components/shared/Logo';
 
 // ── Tipos ──────────────────────────────────────────────────────────────────────
 interface OngCard {
@@ -106,7 +107,7 @@ function OngCardItem({ ong }: { ong: OngCard }) {
       <CardContent className="flex-1 space-y-4">
         <p className="text-xs text-muted-foreground leading-relaxed line-clamp-3">
           Organização dedicada à gestão de voluntariado estruturado no Rio Grande do Norte,
-          com ações verificadas e auditadas pela plataforma Conecta Impacto.
+          com ações verificadas e auditadas pela plataforma Raízes do Bem.
         </p>
 
         {/* Mini métricas */}
@@ -168,7 +169,7 @@ export default function PublicTransparencyPage() {
   const [globalStats, setGlobalStats] = useState({ horas: 0, acoes: 0, vol: 0, ongs: 0 });
 
   useEffect(() => {
-    document.title = 'Portal de Transparência — Conecta Impacto';
+    document.title = 'Portal de Transparência — Raízes do Bem';
     void loadAll();
   }, []);
 
@@ -260,10 +261,8 @@ export default function PublicTransparencyPage() {
       <nav className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur-md">
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
-              <Globe size={14} className="text-primary-foreground" />
-            </div>
-            <span className="font-bold text-sm text-foreground">Conecta Impacto</span>
+            <Logo size={28} />
+            <span className="font-bold text-sm text-foreground">Raízes do Bem</span>
           </Link>
           <div className="flex items-center gap-2">
             <ThemeToggle />
@@ -441,10 +440,8 @@ export default function PublicTransparencyPage() {
       <footer className="border-t border-border py-8 px-4 mt-4">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
           <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded-md bg-primary flex items-center justify-center">
-              <Globe size={10} className="text-primary-foreground" />
-            </div>
-            <span>Conecta Impacto © 2026 — Oxente Code</span>
+            <Logo size={20} />
+            <span>Raízes do Bem © 2026 — Oxente Code</span>
           </div>
           <div className="flex items-center gap-1.5 text-[10px]">
             <CheckCircle2 size={11} className="text-primary" />

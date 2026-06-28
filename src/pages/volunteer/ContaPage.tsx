@@ -24,7 +24,7 @@ export default function ContaPage() {
   const [createdAt, setCreatedAt] = useState('');
 
   useEffect(() => {
-    document.title = 'Minha Conta — Conecta Impacto';
+    document.title = 'Minha Conta — Raízes do Bem';
     if (sessao) {
       setNome(sessao.nome);
       void loadProfileDetails();

@@ -14,6 +14,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
 import { ThemeToggle } from '@/components/shared/ThemeToggle';
+import { Logo } from '@/components/shared/Logo';
 
 // ── Tipos ──────────────────────────────────────────────────────────────────────
 interface OngProfile {
@@ -178,7 +179,7 @@ export default function OngProfilePage() {
 
   useEffect(() => {
     if (!id) { navigate('/transparencia'); return; }
-    document.title = 'Perfil da ONG — Conecta Impacto';
+    document.title = 'Perfil da ONG — Raízes do Bem';
     void loadOng(id);
   }, [id]);
 
@@ -208,7 +209,7 @@ export default function OngProfilePage() {
         nome: profile.nome,
         ong_name: profile.ong_name ?? profile.nome,
         cidade: profile.cidade || 'Natal, RN',
-        descricao: profile.descricao || 'Organização sem fins lucrativos dedicada à transformação social por meio do voluntariado estruturado e monitorado na plataforma Conecta Impacto.',
+        descricao: profile.descricao || 'Organização sem fins lucrativos dedicada à transformação social por meio do voluntariado estruturado e monitorado na plataforma Raízes do Bem.',
         missao: profile.missao || 'Conectar pessoas engajadas a causas sociais verificáveis, com dados auditáveis, promovendo impacto real e mensurável no Rio Grande do Norte.',
         site: profile.site || null,
         ods_tags: ['ODS 3', 'ODS 10', 'ODS 17'],
@@ -666,10 +667,8 @@ export default function OngProfilePage() {
         {/* ── Footer ── */}
         <footer className="border-t border-border pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
           <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded-md bg-primary flex items-center justify-center">
-              <Globe size={10} className="text-primary-foreground" />
-            </div>
-            <span>Conecta Impacto © 2026 — Oxente Code</span>
+            <Logo size={20} />
+            <span>Raízes do Bem © 2026 — Oxente Code</span>
           </div>
           <div className="flex gap-4">
             <Link to="/transparencia" className="hover:text-foreground transition-colors">Portal de Transparência</Link>

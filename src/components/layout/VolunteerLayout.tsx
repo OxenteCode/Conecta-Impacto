@@ -44,8 +44,8 @@ export function VolunteerLayout({ children }: { children: React.ReactNode }) {
         <div className="flex flex-col gap-6">
           {/* Logo */}
           <div className="px-2 flex flex-col">
-            <span className="text-xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
-              Conecta Impacto
+            <span className="text-xl font-bold bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">
+              Raízes do Bem
             </span>
             <span className="text-[10px] tracking-wider text-muted-foreground uppercase mt-0.5">
               Portal do Voluntário
@@ -104,8 +104,8 @@ export function VolunteerLayout({ children }: { children: React.ReactNode }) {
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Mobile Top Header */}
         <header className="md:hidden flex items-center justify-between px-4 h-14 border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-30">
-          <span className="font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
-            Conecta Impacto
+          <span className="font-bold bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">
+            Raízes do Bem
           </span>
           <button
             onClick={() => setMenuOpen(!menuOpen)}
@@ -128,8 +128,8 @@ export function VolunteerLayout({ children }: { children: React.ReactNode }) {
             <div className="relative w-72 bg-card h-full flex flex-col justify-between px-4 py-6 shadow-2xl animate-in slide-in-from-left duration-300">
               <div className="flex flex-col gap-6">
                 <div className="px-2 py-1">
-                  <span className="text-lg font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
-                    Conecta Impacto
+                  <span className="text-lg font-bold bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">
+                    Raízes do Bem
                   </span>
                 </div>
                 <nav className="flex flex-col gap-1">

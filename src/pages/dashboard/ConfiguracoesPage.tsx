@@ -8,7 +8,7 @@ export default function ConfiguracoesPage() {
   const [status, setStatus] = useState('Conectado');
 
   useEffect(() => {
-    document.title = 'Configurações — Conecta Impacto';
+    document.title = 'Configurações — Raízes do Bem';
   }, []);
 
   const handleTestConnection = () => {
@@ -112,13 +112,13 @@ export default function ConfiguracoesPage() {
           </div>
           
           <p className="text-xs text-muted-foreground leading-relaxed">
-            O aplicativo Conecta Impacto está configurado para empacotamento multiplataforma nativo. As safe-areas e estilos responsivos estão otimizados.
+            O aplicativo Raízes do Bem está configurado para empacotamento multiplataforma nativo. As safe-areas e estilos responsivos estão otimizados.
           </p>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-2 text-center">
             <div className="p-3 rounded-xl bg-background/40 border border-border/30">
               <p className="text-[10px] text-muted-foreground">AppName</p>
-              <p className="text-xs font-bold text-foreground mt-0.5">Conecta Impacto</p>
+              <p className="text-xs font-bold text-foreground mt-0.5">Raízes do Bem</p>
             </div>
             <div className="p-3 rounded-xl bg-background/40 border border-border/30">
               <p className="text-[10px] text-muted-foreground">App ID</p>

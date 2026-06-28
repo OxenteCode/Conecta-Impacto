@@ -77,7 +77,7 @@ export default function DashboardPage() {
   const [loadingDonors, setLoadingDonors]       = useState(true);
 
   useEffect(() => {
-    document.title = `Dashboard — ${sessao?.ongName ?? 'Conecta Impacto'}`;
+    document.title = `Dashboard — ${sessao?.ongName ?? 'Raízes do Bem'}`;
     void loadDashboard();
   }, [sessao]);
 
@@ -261,7 +261,7 @@ export default function DashboardPage() {
               Painel Geral de Impacto
             </h1>
             <p className="text-muted-foreground text-sm mt-1">
-              {sessao?.ongName ?? 'Conecta Impacto'} · Análise ESG em tempo real
+              {sessao?.ongName ?? 'Raízes do Bem'} · Análise ESG em tempo real
             </p>
           </div>
 
@@ -735,7 +735,7 @@ export default function DashboardPage() {
 
         {/* ── Rodapé do relatório (visível no PDF) ─────────────────────────── */}
         <div className="border-t border-border pt-4 flex items-center justify-between text-xs text-muted-foreground">
-          <span>Conecta Impacto · {sessao?.ongName ?? 'Relatório Institucional'}</span>
+          <span>Raízes do Bem · {sessao?.ongName ?? 'Relatório Institucional'}</span>
           <span>Gerado em {new Date().toLocaleString('pt-BR')}</span>
         </div>
 
