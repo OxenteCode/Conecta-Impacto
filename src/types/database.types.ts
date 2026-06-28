@@ -12,10 +12,11 @@ export interface Database {
       profiles: {
         Row: {
           id: string;
-          tipo_usuario: 'voluntario' | 'ong';
+          tipo_usuario: 'voluntario' | 'ong' | 'doador';
           nome: string;
           ong_name: string | null;
           cnpj: string | null;
+          cnpj_valid: boolean | null;
           seal_active: boolean | null;
           last_audit_date: string | null;
           created_at: string;
@@ -29,10 +30,11 @@ export interface Database {
         };
         Insert: {
           id: string;
-          tipo_usuario: 'voluntario' | 'ong';
+          tipo_usuario: 'voluntario' | 'ong' | 'doador';
           nome: string;
           ong_name?: string | null;
           cnpj?: string | null;
+          cnpj_valid?: boolean | null;
           seal_active?: boolean | null;
           last_audit_date?: string | null;
           created_at?: string;
@@ -46,10 +48,11 @@ export interface Database {
         };
         Update: {
           id?: string;
-          tipo_usuario?: 'voluntario' | 'ong';
+          tipo_usuario?: 'voluntario' | 'ong' | 'doador';
           nome?: string;
           ong_name?: string | null;
           cnpj?: string | null;
+          cnpj_valid?: boolean | null;
           seal_active?: boolean | null;
           last_audit_date?: string | null;
           created_at?: string;
