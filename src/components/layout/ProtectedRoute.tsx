@@ -29,14 +29,19 @@ export function ProtectedRoute({ children, requiredRole }: ProtectedRouteProps) 
     return <Navigate to="/login" replace />;
   }
 
-  // Voluntário tentando acessar dashboard de ONG
-  if (requiredRole === 'ong' && sessao.role !== 'ong') {
+  // Voluntário tentando acessar área de ONG ou Doador
+  if (sessao.role === 'voluntario' && requiredRole && requiredRole !== 'voluntario') {
     return <Navigate to="/meu-perfil" replace />;
   }
 
-  // ONG tentando acessar portal do voluntário
-  if (requiredRole === 'voluntario' && sessao.role !== 'voluntario') {
+  // ONG tentando acessar área de Voluntário ou Doador
+  if (sessao.role === 'ong' && requiredRole && requiredRole !== 'ong') {
     return <Navigate to="/dashboard" replace />;
+  }
+
+  // Doador tentando acessar área de Voluntário ou ONG
+  if (sessao.role === 'doador' && requiredRole && requiredRole !== 'doador') {
+    return <Navigate to="/portal-empresa" replace />;
   }
 
   return <>{children}</>;

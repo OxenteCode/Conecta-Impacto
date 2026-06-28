@@ -54,6 +54,10 @@ const generateMockCommits = (profileId: string): Map<string, DonationCommit> => 
   const isDiamante = profileId === 'mock-diamante';
   const isChurn = profileId === 'mock-churn';
   const isIniciante = profileId === 'mock-iniciante';
+  const isBroto = profileId === 'mock-broto';
+  const isJovem = profileId === 'mock-jovem';
+  const isCarvalho = profileId === 'mock-carvalho';
+  const isEcossistema = profileId === 'mock-ecossistema';
 
   for (let i = 364; i >= 0; i--) {
     const d = new Date(today);
@@ -88,6 +92,34 @@ const generateMockCommits = (profileId: string): Map<string, DonationCommit> => 
           amount = Math.floor(Math.random() * 100) + 20;
           count = 1;
         }
+      }
+    } else if (isBroto) {
+      // Broto: total R$ 500 - 1999 (e.g. 15 * 75 = 1125)
+      if (i % 24 === 0) {
+        isDonationDay = true;
+        amount = 75;
+        count = 1;
+      }
+    } else if (isJovem) {
+      // Jovem: total R$ 2000 - 4999 (e.g. 20 * 160 = 3200)
+      if (i % 18 === 0) {
+        isDonationDay = true;
+        amount = 160;
+        count = 1;
+      }
+    } else if (isCarvalho) {
+      // Carvalho: total R$ 5000 - 9999 (e.g. 30 * 260 = 7800)
+      if (i % 12 === 0) {
+        isDonationDay = true;
+        amount = 260;
+        count = 1;
+      }
+    } else if (isEcossistema) {
+      // Ecossistema: total R$ 10000 - 49999 (e.g. 60 * 520 = 31200)
+      if (i % 6 === 0) {
+        isDonationDay = true;
+        amount = 520;
+        count = 2;
       }
     } else {
       // Default random

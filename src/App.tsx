@@ -19,6 +19,7 @@ import ConfiguracoesPage from '@/pages/dashboard/ConfiguracoesPage';
 import PublicTransparencyPage from '@/pages/PublicTransparencyPage';
 import OngProfilePage from '@/pages/transparency/OngProfilePage';
 import DonorPage from '@/pages/donor/DonorPage';
+import DonorDashboardPage from '@/pages/donor/DonorDashboardPage';
 
 /**
  * Componente raiz que provê o contexto de autenticação e define todas as rotas.
@@ -38,6 +39,14 @@ function AppProviders() {
           <Route path="/transparencia" element={<PublicTransparencyPage />} />
           <Route path="/transparencia/ong/:id" element={<OngProfilePage />} />
           <Route path="/doador" element={<DonorPage />} />
+          <Route
+            path="/portal-empresa"
+            element={
+              <ProtectedRoute requiredRole="doador">
+                <DonorDashboardPage />
+              </ProtectedRoute>
+            }
+          />
 
           {/* ── Portal do Voluntário ── */}
           <Route

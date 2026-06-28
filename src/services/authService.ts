@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabaseClient';
-import type { SessaoUsuario, RegisterVoluntarioPayload, RegisterOngPayload } from '@/types/auth';
+import type { SessaoUsuario, RegisterVoluntarioPayload, RegisterOngPayload, RegisterDoadorPayload } from '@/types/auth';
 
 const SESSION_KEY = 'conecta_impacto_session';
 
@@ -137,6 +137,52 @@ export async function registerOng(payload: RegisterOngPayload): Promise<SessaoUs
     email: payload.email,
     role: 'ong',
     ongName: payload.nomeOng,
+  };
+
+  persistSession(sessao);
+  return sessao;
+}
+
+/**
+ * Cria uma conta de Doador Corporativo no Supabase Auth e insere o perfil na tabela `profiles`.
+ * Após cadastro, redireciona para /portal-empresa via retorno da sessão.
+ * @param payload - Dados do doador (nomeGestor, nomeEmpresa, cnpj, email, senha)
+ * @returns A sessão criada
+ */
+export async function registerDoador(payload: RegisterDoadorPayload): Promise<SessaoUsuario> {
+  const { data, error } = await supabase.auth.signUp({
+    email: payload.email,
+    password: payload.senha,
+    options: {
+      data: {
+        nome: payload.nomeGestor,
+        tipo_usuario: 'doador',
+        ong_name: payload.nomeEmpresa,
+        cnpj: payload.cnpj,
+        cnpj_valid: true
+      },
+    },
+  });
+
+  if (error || !data.user) {
+    throw new Error(error?.message ?? 'Erro ao criar conta de patrocinador.');
+  }
+
+  await supabase.from('profiles').upsert({
+    id: data.user.id,
+    tipo_usuario: 'doador',
+    nome: payload.nomeGestor,
+    ong_name: payload.nomeEmpresa,
+    cnpj: payload.cnpj,
+    cnpj_valid: true
+  });
+
+  const sessao: SessaoUsuario = {
+    id: data.user.id,
+    nome: payload.nomeGestor,
+    email: payload.email,
+    role: 'doador',
+    ongName: payload.nomeEmpresa,
   };
 
   persistSession(sessao);

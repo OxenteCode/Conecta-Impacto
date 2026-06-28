@@ -14,6 +14,7 @@ import {
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ThemeToggle } from '@/components/shared/ThemeToggle';
+import { Logo } from '@/components/shared/Logo';
 
 const ods = [
   { number: 3, title: 'Saúde e Bem-Estar', desc: 'Check-in emocional preventivo para quem cuida do próximo.', accent: 'border-l-emerald-500', badge: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400' },
@@ -52,7 +53,7 @@ const features = [
 
 export default function LandingPage() {
   useEffect(() => {
-    document.title = 'Conecta Impacto — Plataforma de Gestão de Impacto Social';
+    document.title = 'Raízes do Bem — Plataforma de Gestão de Impacto Social';
   }, []);
 
   return (
@@ -62,11 +63,9 @@ export default function LandingPage() {
       <nav className="sticky top-0 z-50 border-b border-border bg-stone-50/90 dark:bg-background/90 backdrop-blur-md">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center shrink-0">
-              <Globe size={18} className="text-emerald-700 dark:text-emerald-400" />
-            </div>
+            <Logo size={32} />
             <span className="font-bold text-lg text-slate-900 dark:text-foreground tracking-tight">
-              Conecta Impacto
+              Raízes do Bem
             </span>
           </div>
           <div className="flex items-center gap-2">
@@ -81,7 +80,14 @@ export default function LandingPage() {
               to="/doador"
               className="px-4 py-2 text-[15px] font-medium text-slate-600 dark:text-muted-foreground hover:text-slate-900 dark:hover:text-foreground transition-colors rounded-full hover:bg-stone-200/50 dark:hover:bg-muted"
             >
-              Doador
+              Quero Doar
+            </Link>
+            <Link
+              to="/portal-empresa"
+              className="px-4 py-2 text-[15px] font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 transition-colors rounded-full hover:bg-stone-200/50 dark:hover:bg-muted flex items-center gap-1.5"
+            >
+              <Sparkles size={14} />
+              Portal Empresa
             </Link>
             <Link
               to="/login"
@@ -360,7 +366,7 @@ export default function LandingPage() {
             Vamos fazer o bem, juntos?
           </h2>
           <p className="text-slate-600 dark:text-muted-foreground mb-10 text-lg leading-relaxed">
-            Sinta-se em casa. O Conecta Impacto é um espaço pensado para acolher e potencializar a sua vontade de transformar.
+            Sinta-se em casa. O Raízes do Bem é um espaço pensado para acolher e potencializar a sua vontade de transformar.
           </p>
           <Link
             to="/cadastro"
@@ -379,7 +385,7 @@ export default function LandingPage() {
             <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
               <Globe size={16} className="text-emerald-700 dark:text-emerald-400" />
             </div>
-            <span>Conecta Impacto © 2026 — Feito com empatia</span>
+            <span>Raízes do Bem © 2026 — Feito com empatia</span>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-6">
             <Link to="/transparencia" className="hover:text-slate-900 dark:hover:text-foreground transition-colors flex items-center gap-2">

@@ -302,6 +302,22 @@ export default function DonorPage() {
 
       <div className="max-w-6xl mx-auto px-4 py-10 space-y-12">
 
+        {/* Banner de Direcionamento para Portal Corporativo */}
+        <div className="bg-emerald-500/10 border border-emerald-500/20 dark:bg-emerald-950/15 dark:border-emerald-900/40 rounded-3xl p-5 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left shadow-sm">
+          <div className="space-y-1">
+            <h4 className="font-extrabold text-sm text-emerald-800 dark:text-emerald-400 flex items-center justify-center sm:justify-start gap-1.5">
+              <Sparkles size={15} />
+              Área de Monitoramento Corporativo ESG
+            </h4>
+            <p className="text-xs text-emerald-700 dark:text-emerald-300 leading-normal max-w-xl">
+              Você é um patrocinador corporativo/empresa parceira? Acesse o Portal da Empresa para ver a evolução detalhada do seu Bosque, emitir selos ESG e relatórios de sustentabilidade.
+            </p>
+          </div>
+          <Link to="/portal-empresa" className="px-4.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all shadow-md shrink-0 uppercase tracking-wider cursor-pointer">
+            Acessar Portal Empresa
+          </Link>
+        </div>
+
         {/* ── Hero da Área do Doador ── */}
         <div className="text-center max-w-2xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border bg-muted text-muted-foreground text-xs font-medium mb-5">
@@ -782,35 +798,67 @@ export default function DonorPage() {
             <p className="text-sm text-emerald-700 dark:text-emerald-300 mb-4">
               Selecione diferentes cenários de empresas patrocinadoras para ver como a "Floresta ESG" se adapta visualmente:
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2.5">
               <button
-                onClick={() => setDemoProfile('mock-diamante')}
-                className={cn('px-4 py-2 rounded-xl text-sm font-semibold transition-all border', 
-                  demoProfile === 'mock-diamante' ? 'bg-emerald-600 text-white border-emerald-700 shadow-md' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                onClick={() => setDemoProfile('mock-iniciante')}
+                className={cn('px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all border cursor-pointer', 
+                  demoProfile === 'mock-iniciante' ? 'bg-emerald-500 text-white border-emerald-600 shadow-md scale-105' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
                 )}
               >
-                💎 Diamante Constante
+                🌱 Nível 1: Semente
+              </button>
+              <button
+                onClick={() => setDemoProfile('mock-broto')}
+                className={cn('px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all border cursor-pointer', 
+                  demoProfile === 'mock-broto' ? 'bg-emerald-500 text-white border-emerald-600 shadow-md scale-105' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                )}
+              >
+                🌿 Nível 2: Broto
+              </button>
+              <button
+                onClick={() => setDemoProfile('mock-jovem')}
+                className={cn('px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all border cursor-pointer', 
+                  demoProfile === 'mock-jovem' ? 'bg-emerald-500 text-white border-emerald-600 shadow-md scale-105' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                )}
+              >
+                🌲 Nível 3: Árvore Jovem
+              </button>
+              <button
+                onClick={() => setDemoProfile('mock-carvalho')}
+                className={cn('px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all border cursor-pointer', 
+                  demoProfile === 'mock-carvalho' ? 'bg-emerald-500 text-white border-emerald-600 shadow-md scale-105' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                )}
+              >
+                🌳 Nível 4: Carvalho Guardião
+              </button>
+              <button
+                onClick={() => setDemoProfile('mock-ecossistema')}
+                className={cn('px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all border cursor-pointer', 
+                  demoProfile === 'mock-ecossistema' ? 'bg-emerald-500 text-white border-emerald-600 shadow-md scale-105' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                )}
+              >
+                🌸 Nível 5: Ecossistema
+              </button>
+              <button
+                onClick={() => setDemoProfile('mock-diamante')}
+                className={cn('px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all border cursor-pointer', 
+                  demoProfile === 'mock-diamante' ? 'bg-cyan-600 text-white border-cyan-700 shadow-md scale-105' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                )}
+              >
+                💎 Nível 6: Floresta Diamante
               </button>
               <button
                 onClick={() => setDemoProfile('mock-churn')}
-                className={cn('px-4 py-2 rounded-xl text-sm font-semibold transition-all border', 
-                  demoProfile === 'mock-churn' ? 'bg-amber-500 text-white border-amber-600 shadow-md' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                className={cn('px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all border cursor-pointer', 
+                  demoProfile === 'mock-churn' ? 'bg-amber-500 text-white border-amber-600 shadow-md scale-105' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
                 )}
               >
-                🍂 Risco de Churn (&gt; 30 dias)
-              </button>
-              <button
-                onClick={() => setDemoProfile('mock-iniciante')}
-                className={cn('px-4 py-2 rounded-xl text-sm font-semibold transition-all border', 
-                  demoProfile === 'mock-iniciante' ? 'bg-emerald-400 text-white border-emerald-500 shadow-md' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
-                )}
-              >
-                🌱 Iniciante (Semente)
+                🍂 Risco de Churn (Seca)
               </button>
               <button
                 onClick={() => setDemoProfile('default')}
-                className={cn('px-4 py-2 rounded-xl text-sm font-semibold transition-all border', 
-                  demoProfile === 'default' ? 'bg-slate-800 text-white border-slate-900 shadow-md' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                className={cn('px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all border cursor-pointer', 
+                  demoProfile === 'default' ? 'bg-slate-800 text-white border-slate-900 shadow-md scale-105' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
                 )}
               >
                 🎲 Padrão Aleatório

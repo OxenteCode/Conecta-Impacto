@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, Globe, Eye, EyeOff } from 'lucide-react';
+import { Mail, Lock, Globe, Eye, EyeOff, Sparkles } from 'lucide-react';
 import { login } from '@/services/authService';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
+import { Logo } from '@/components/shared/Logo';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -15,7 +16,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = 'Entrar — Conecta Impacto';
+    document.title = 'Entrar — Raízes do Bem';
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -26,12 +27,32 @@ export default function LoginPage() {
     try {
       const sessao = await login(email, senha);
       setSessao(sessao);
-      navigate(sessao.role === 'ong' ? '/dashboard' : '/meu-perfil', { replace: true });
+      if (sessao.role === 'ong') {
+        navigate('/dashboard', { replace: true });
+      } else if (sessao.role === 'doador') {
+        navigate('/portal-empresa', { replace: true });
+      } else {
+        navigate('/meu-perfil', { replace: true });
+      }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Erro ao realizar login.');
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleDemoSponsorLogin = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const demoSessao = {
+      id: 'mock-diamante',
+      nome: 'Lailson Code (Gestor)',
+      email: 'patrocinio@oxentecode.com',
+      role: 'doador' as const,
+      ongName: 'OxenteCode Tech',
+    };
+    localStorage.setItem('conecta_impacto_session', JSON.stringify(demoSessao));
+    setSessao(demoSessao);
+    navigate('/portal-empresa', { replace: true });
   };
 
   return (
@@ -44,10 +65,8 @@ export default function LoginPage() {
         </div>
         <div className="relative z-10 flex flex-col justify-center items-start px-16">
           <div className="flex items-center gap-3 mb-12">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center">
-              <Globe size={20} className="text-white" />
-            </div>
-            <span className="text-2xl font-bold text-white">Conecta Impacto</span>
+            <Logo size={40} className="brightness-125 filter" />
+            <span className="text-2xl font-bold text-white">Raízes do Bem</span>
           </div>
           <h1 className="text-4xl font-bold text-white mb-4 leading-tight">
             Bem-vindo de volta ao impacto positivo
@@ -70,12 +89,10 @@ export default function LoginPage() {
       <div className="flex-1 flex items-center justify-center px-4 py-12 bg-background">
         <div className="w-full max-w-sm">
           {/* Logo mobile */}
-          <div className="flex items-center gap-2 mb-8 lg:hidden">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center">
-              <Globe size={16} className="text-white" />
-            </div>
-            <span className="font-bold text-lg bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
-              Conecta Impacto
+          <div className="flex items-center gap-2.5 mb-8 lg:hidden">
+            <Logo size={32} />
+            <span className="font-bold text-lg bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
+              Raízes do Bem
             </span>
           </div>
 
@@ -158,10 +175,21 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <div className="mt-6 pt-6 border-t border-border/40 text-center">
-            <Link to="/" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-              ← Voltar para o início
-            </Link>
+          <div className="mt-6 pt-6 border-t border-border/40 text-center space-y-3">
+             <div>
+              <button 
+                onClick={handleDemoSponsorLogin}
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-400 font-extrabold text-xs rounded-xl shadow-inner border border-emerald-200/50 hover:bg-emerald-100 transition-colors uppercase tracking-wider cursor-pointer"
+              >
+                <Sparkles size={13} />
+                Entrar como Patrocinador (Demo)
+              </button>
+            </div>
+            <div>
+              <Link to="/" className="text-xs text-muted-foreground hover:text-foreground transition-colors inline-block">
+                ← Voltar para o início
+              </Link>
+            </div>
           </div>
         </div>
       </div>

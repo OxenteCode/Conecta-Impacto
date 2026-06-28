@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { Leaf, Sprout, TreePine, TreeDeciduous, Trophy, Gem, Loader2, AlertCircle, ShieldCheck, HeartHandshake, PackageOpen, CheckCircle2, X } from 'lucide-react';
+import { DynamicForestTree } from '@/components/impact/DynamicForestTree';
 
 interface ImpactForestProps {
   companyId: string;
@@ -35,6 +36,39 @@ const getCommitColor = (amount: number, isSuffering: boolean) => {
   if (amount < 300) return 'bg-emerald-400 dark:bg-emerald-700/60';
   if (amount < 500) return 'bg-emerald-600 dark:bg-emerald-500/80';
   return 'bg-emerald-800 dark:bg-emerald-400';
+};
+
+const rewardsList = {
+  1: {
+    title: 'Certificado de Início de Jornada',
+    desc: 'Certificado digital oficial para postar nas redes sociais corporativas e LinkedIn.',
+    badge: 'Liberado'
+  },
+  2: {
+    title: 'Widget Conecta Oficial',
+    desc: 'Um pedaço de código dinâmico que a empresa pode embutir no seu site exibindo "Apoiador Oficial".',
+    badge: 'Widget Ativo'
+  },
+  3: {
+    title: 'Selo Conecta de Transparência',
+    desc: 'Selo oficial homologado para uso em embalagens físicas, assinaturas de e-mail e site.',
+    badge: 'Selo Ativo'
+  },
+  4: {
+    title: 'Relatório de Impacto Automatizado',
+    desc: 'Relatório detalhado em PDF com seu logotipo, pronto para anexar aos relatórios anuais ESG.',
+    badge: 'Relatórios Habilitados'
+  },
+  5: {
+    title: 'Status de Empresa Âncora',
+    desc: 'Destaque premium com marca em evidência no aplicativo para todos os cidadãos da rede.',
+    badge: 'Destaque Premium'
+  },
+  6: {
+    title: 'Integração de Monitores (API Aberta)',
+    desc: 'Chave de API em tempo real para exibir o bioma dinâmico da sua Floresta nos monitores da recepção física.',
+    badge: 'API Integrada'
+  }
 };
 
 export function ImpactForest({ companyId }: ImpactForestProps) {
@@ -105,46 +139,79 @@ export function ImpactForest({ companyId }: ImpactForestProps) {
         </CardHeader>
         
         <CardContent>
-          {/* Main Info Area */}
-          <div className="flex flex-col md:flex-row items-center gap-8 py-6 mb-8 relative">
-            {/* Visual Avatar */}
-            <div className={`relative w-36 h-36 rounded-3xl ${isSuffering ? 'bg-amber-100' : Visual.bg} flex items-center justify-center shadow-inner shrink-0 transition-all duration-500 hover:scale-105 rotate-3 hover:rotate-0`}>
-              <Icon size={72} className={`${isSuffering ? 'text-amber-500 opacity-80' : Visual.color} drop-shadow-md`} strokeWidth={1.5} />
-              
-              {isSuffering && (
-                <div className="absolute -top-3 -right-3 bg-amber-500 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg border-2 border-white animate-bounce">
-                  +30 dias sem doar
-                </div>
-              )}
+          {/* Main Info Area - Redesigned as a prominent grid */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 py-6 mb-8 items-center relative">
+            {/* Visual Dynamic Tree - Large Feature */}
+            <div className="col-span-1 md:col-span-5 flex justify-center items-center">
+              <DynamicForestTree
+                level={level}
+                isSuffering={isSuffering}
+                className="w-full max-w-[320px] md:max-w-none aspect-square transition-all duration-500 hover:scale-105 hover:rotate-1 cursor-pointer shadow-md rounded-[2.5rem]"
+              />
             </div>
 
-            {/* Details */}
-            <div className="flex-1 w-full space-y-5">
+            {/* Details & Metrics */}
+            <div className="col-span-1 md:col-span-7 space-y-6">
               <div>
-                <p className={`text-sm font-semibold uppercase tracking-wider mb-1 ${isSuffering ? 'text-amber-600' : 'text-emerald-600'}`}>
+                <p className={`text-xs font-bold uppercase tracking-wider mb-1 ${isSuffering ? 'text-amber-600' : 'text-emerald-600'}`}>
                   Volume Total Semeado
                 </p>
-                <p className="text-4xl font-black text-slate-800 dark:text-slate-100">
+                <p className="text-4xl md:text-5xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
                   R$ {totalDonated.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                 </p>
               </div>
 
               {nextTierThreshold ? (
-                <div className="space-y-2 max-w-md">
-                  <div className="flex justify-between text-sm font-medium text-slate-600 dark:text-slate-400">
+                <div className="space-y-2 max-w-lg">
+                  <div className="flex justify-between text-sm font-semibold text-slate-700 dark:text-slate-300">
                     <span>Evolução da Floresta</span>
                     <span>{Math.round(progress)}%</span>
                   </div>
-                  <Progress value={progress} className={`h-3 ${isSuffering ? 'bg-amber-100 [&>div]:bg-amber-400' : 'bg-slate-100 [&>div]:bg-emerald-500'}`} />
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                  <Progress value={progress} className={`h-3.5 ${isSuffering ? 'bg-amber-100 [&>div]:bg-amber-400' : 'bg-slate-100 [&>div]:bg-emerald-500'}`} />
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                     Faltam <strong className={isSuffering ? 'text-amber-600' : 'text-emerald-600'}>R$ {(nextTierThreshold - totalDonated).toLocaleString('pt-BR')}</strong> para expandir seu bioma para <strong className="text-slate-700 dark:text-slate-300">{getTierDetails(nextTierThreshold).name}</strong>.
                   </p>
                 </div>
               ) : (
-                <div className="p-4 bg-gradient-to-r from-amber-50 to-yellow-100 rounded-xl border border-amber-200 text-amber-800 text-sm font-medium shadow-sm">
+                <div className="p-4 bg-gradient-to-r from-amber-50 to-yellow-100 dark:from-amber-950/20 dark:to-yellow-950/20 rounded-xl border border-amber-200 dark:border-amber-900/50 text-amber-800 dark:text-amber-200 text-sm font-medium shadow-sm">
                   <span className="text-lg mr-2">🌟</span> Parabéns! Sua empresa atingiu o ápice do impacto sustentável.
                 </div>
               )}
+
+              {/* ESG Level Rewards Section */}
+              <div className="pt-5 border-t border-slate-100 dark:border-slate-800/80 max-w-lg">
+                <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-3">Recompensa ESG Desbloqueada</h4>
+                <div className={`p-4 rounded-2xl border transition-all duration-300 ${
+                  isSuffering 
+                    ? 'bg-amber-50/40 border-amber-200 text-amber-900 dark:bg-amber-950/10 dark:border-amber-900/20' 
+                    : 'bg-emerald-50/40 border-emerald-100 text-emerald-900 dark:bg-emerald-950/10 dark:border-emerald-900/20'
+                }`}>
+                  <div className="flex items-start gap-3">
+                    <div className={`p-2.5 rounded-xl shrink-0 ${isSuffering ? 'bg-amber-100 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400' : 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400'}`}>
+                      <Trophy size={18} />
+                    </div>
+                    <div>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h5 className="font-bold text-sm text-slate-800 dark:text-slate-200">
+                          {rewardsList[level as keyof typeof rewardsList]?.title}
+                        </h5>
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                          isSuffering 
+                            ? 'bg-amber-100 text-amber-700 border border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800' 
+                            : 'bg-emerald-100 text-emerald-700 border border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800'
+                        }`}>
+                          {isSuffering ? 'Temporariamente Bloqueado' : rewardsList[level as keyof typeof rewardsList]?.badge}
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
+                        {isSuffering 
+                          ? 'Sua recompensa de nível foi congelada devido ao Alerta Amarelo de 30 dias sem impacto validado. Faça um aporte para recuperar seu status.' 
+                          : rewardsList[level as keyof typeof rewardsList]?.desc}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 

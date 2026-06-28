@@ -13,11 +13,14 @@ import {
   ChevronDown,
   Search,
   Loader2,
+  Sparkles,
+  ShieldCheck,
 } from 'lucide-react';
-import { registerVoluntario, registerOng } from '@/services/authService';
+import { registerVoluntario, registerOng, registerDoador } from '@/services/authService';
 import { supabase } from '@/lib/supabaseClient';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
+import { Logo } from '@/components/shared/Logo';
 import type { TipoUsuario } from '@/types/auth';
 
 interface OngOption {
@@ -55,7 +58,7 @@ export default function RegisterPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = 'Criar conta — Conecta Impacto';
+    document.title = 'Criar conta — Raízes do Bem';
   }, []);
 
   // Busca ONGs cadastradas no Supabase quando o perfil é 'voluntario'
@@ -66,7 +69,7 @@ export default function RegisterPage() {
 
   // Efeito para validar o CNPJ em tempo real na Brasil API
   useEffect(() => {
-    if (perfil !== 'ong') return;
+    if (perfil !== 'ong' && perfil !== 'doador') return;
     
     const cleanCnpj = cnpj.replace(/\D/g, '');
     
@@ -140,7 +143,7 @@ export default function RegisterPage() {
       return;
     }
     
-    if (perfil === 'ong' && !cnpjValid) {
+    if ((perfil === 'ong' || perfil === 'doador') && !cnpjValid) {
       setError('O CNPJ informado é inválido ou irregular. Revise os dados e tente novamente.');
       return;
     }
@@ -156,6 +159,16 @@ export default function RegisterPage() {
         });
         setSessao(sessao);
         navigate('/meu-perfil', { replace: true });
+      } else if (perfil === 'doador') {
+        const sessao = await registerDoador({
+          nomeGestor,
+          nomeEmpresa: nomeOng,
+          cnpj,
+          email,
+          senha,
+        });
+        setSessao(sessao);
+        navigate('/portal-empresa', { replace: true });
       } else {
         const sessao = await registerOng({ nomeGestor, nomeOng, cnpj, email, senha });
         setSessao(sessao);
@@ -180,7 +193,9 @@ export default function RegisterPage() {
       ? 'bg-muted text-muted-foreground cursor-not-allowed'
       : perfil === 'voluntario'
         ? 'bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow-md shadow-emerald-600/20 hover:brightness-105'
-        : 'bg-violet-600 text-white shadow-md shadow-violet-600/20 hover:bg-violet-700'
+        : perfil === 'doador'
+          ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-md shadow-emerald-600/20'
+          : 'bg-violet-600 text-white shadow-md shadow-violet-600/20 hover:bg-violet-700'
   );
 
   return (
@@ -203,10 +218,8 @@ export default function RegisterPage() {
         <div className="relative z-10 flex flex-col justify-center items-start px-14 py-16">
           {/* Logo */}
           <div className="flex items-center gap-2.5 mb-12">
-            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-              <Globe size={16} className="text-primary-foreground" />
-            </div>
-            <span className="text-xl font-bold text-white">Conecta Impacto</span>
+            <Logo size={36} />
+            <span className="text-xl font-bold text-white">Raízes do Bem</span>
           </div>
 
           <h1 className="text-3xl font-bold text-white mb-3 leading-snug">
@@ -258,11 +271,9 @@ export default function RegisterPage() {
         <div className="w-full max-w-sm pt-2">
 
           {/* Logo mobile */}
-          <div className="flex items-center gap-2 mb-8 lg:hidden">
-            <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
-              <Globe size={14} className="text-primary-foreground" />
-            </div>
-            <span className="font-bold text-base text-foreground">Conecta Impacto</span>
+          <div className="flex items-center gap-2.5 mb-8 lg:hidden">
+            <Logo size={28} />
+            <span className="font-bold text-base text-foreground">Raízes do Bem</span>
           </div>
 
           <h2 className="text-2xl font-bold mb-1 text-foreground">Criar conta</h2>
@@ -274,32 +285,57 @@ export default function RegisterPage() {
           </p>
 
           {/* Seletor de perfil */}
-          <div className="grid grid-cols-2 gap-2.5 mb-6">
+          <div className="grid grid-cols-3 gap-2.5 mb-6">
             <button
               type="button"
-              onClick={() => setPerfil('voluntario')}
+              onClick={() => {
+                setPerfil('voluntario');
+                setCnpj('');
+                setNomeOng('');
+              }}
               className={cn(
-                'flex flex-col items-center gap-2 py-3.5 rounded-xl border text-sm font-medium transition-all duration-150',
+                'flex flex-col items-center gap-2 py-3.5 rounded-xl border text-sm font-medium transition-all duration-150 cursor-pointer',
                 perfil === 'voluntario'
                   ? 'border-primary/50 bg-primary/8 text-primary'
                   : 'border-border text-muted-foreground hover:bg-muted hover:text-foreground'
               )}
             >
               <Heart size={20} strokeWidth={perfil === 'voluntario' ? 2.5 : 1.75} />
-              <span>Voluntário</span>
+              <span className="text-[11px] sm:text-xs">Voluntário</span>
             </button>
             <button
               type="button"
-              onClick={() => setPerfil('ong')}
+              onClick={() => {
+                setPerfil('ong');
+                setCnpj('');
+                setNomeOng('');
+              }}
               className={cn(
-                'flex flex-col items-center gap-2 py-3.5 rounded-xl border text-sm font-medium transition-all duration-150',
+                'flex flex-col items-center gap-2 py-3.5 rounded-xl border text-sm font-medium transition-all duration-150 cursor-pointer',
                 perfil === 'ong'
                   ? 'border-violet-500/50 bg-violet-500/8 text-violet-600 dark:text-violet-400'
                   : 'border-border text-muted-foreground hover:bg-muted hover:text-foreground'
               )}
             >
               <Building size={20} strokeWidth={perfil === 'ong' ? 2.5 : 1.75} />
-              <span>ONG / Instituição</span>
+              <span className="text-[11px] sm:text-xs truncate max-w-full">ONG</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setPerfil('doador');
+                setCnpj('');
+                setNomeOng('');
+              }}
+              className={cn(
+                'flex flex-col items-center gap-2 py-3.5 rounded-xl border text-sm font-medium transition-all duration-150 cursor-pointer',
+                perfil === 'doador'
+                  ? 'border-emerald-500/50 bg-emerald-500/8 text-emerald-600 dark:text-emerald-400'
+                  : 'border-border text-muted-foreground hover:bg-muted hover:text-foreground'
+              )}
+            >
+              <Sparkles size={20} strokeWidth={perfil === 'doador' ? 2.5 : 1.75} />
+              <span className="text-[11px] sm:text-xs">Patrocinador</span>
             </button>
           </div>
 
@@ -435,6 +471,84 @@ export default function RegisterPage() {
                   </div>
                 </div>
               </>
+            ) : perfil === 'doador' ? (
+              <>
+                {/* Nome do Gestor do Doador */}
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="reg-nome-gestor" className="text-sm font-medium text-foreground">
+                    Nome do gestor responsável
+                  </label>
+                  <div className="relative">
+                    <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                    <input
+                      id="reg-nome-gestor"
+                      type="text"
+                      required
+                      value={nomeGestor}
+                      onChange={e => setNomeGestor(e.target.value)}
+                      placeholder="Seu nome completo"
+                      className={inputClass}
+                    />
+                  </div>
+                </div>
+
+                {/* CNPJ da Empresa */}
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="reg-cnpj" className="text-sm font-medium text-foreground">
+                    CNPJ da Empresa <span className="text-muted-foreground font-normal">(Validação Receita Federal)</span>
+                  </label>
+                  <div className="relative">
+                    <Building size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                    <input
+                      id="reg-cnpj"
+                      type="text"
+                      required
+                      value={cnpj}
+                      onChange={e => {
+                        let val = e.target.value.replace(/\D/g, '');
+                        if (val.length > 14) val = val.slice(0, 14);
+                        val = val.replace(/^(\d{2})(\d)/, '$1.$2');
+                        val = val.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+                        val = val.replace(/\.(\d{3})(\d)/, '.$1/$2');
+                        val = val.replace(/(\d{4})(\d)/, '$1-$2');
+                        setCnpj(val);
+                      }}
+                      placeholder="00.000.000/0000-00"
+                      className={cn(inputClass, cnpjValid && 'border-emerald-500 ring-1 ring-emerald-500', cnpjError && 'border-destructive ring-1 ring-destructive')}
+                    />
+                    {cnpjLoading && (
+                      <Loader2 size={16} className="absolute right-3.5 top-1/2 -translate-y-1/2 animate-spin text-muted-foreground" />
+                    )}
+                  </div>
+                  {cnpjError && (
+                    <p className="text-xs text-destructive mt-1">{cnpjError}</p>
+                  )}
+                  {cnpjValid && (
+                    <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-1 flex items-center gap-1">
+                      <ShieldCheck size={12} /> Empresa Ativa verificada na Receita Federal
+                    </p>
+                  )}
+                </div>
+
+                {/* Razão Social / Nome da Empresa */}
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="reg-nome-empresa" className="text-sm font-medium text-foreground">
+                    Nome da Empresa / Razão Social
+                  </label>
+                  <div className="relative">
+                    <Building size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                    <input
+                      id="reg-nome-empresa"
+                      type="text"
+                      required
+                      value={nomeOng}
+                      onChange={e => setNomeOng(e.target.value)}
+                      placeholder="Nome da empresa (Automático pelo CNPJ)"
+                      className={inputClass}
+                    />
+                  </div>
+                </div>
+              </>
             ) : (
               <>
                 <div className="flex flex-col gap-1.5">
@@ -514,7 +628,7 @@ export default function RegisterPage() {
 
             <div className="flex flex-col gap-1.5">
               <label htmlFor="reg-email" className="text-sm font-medium text-foreground">
-                {perfil === 'ong' ? 'E-mail institucional' : 'E-mail'}
+                {perfil === 'ong' ? 'E-mail institucional' : perfil === 'doador' ? 'E-mail corporativo' : 'E-mail'}
               </label>
               <div className="relative">
                 <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
