@@ -55,6 +55,40 @@ export default function LoginPage() {
     navigate('/portal-empresa', { replace: true });
   };
 
+  const handleDemoOngLogin = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    setEmail('conecta@oxentecode.com.br');
+    setSenha('123456');
+    setLoading(true);
+    setError('');
+    try {
+      const sessao = await login('conecta@oxentecode.com.br', '123456');
+      setSessao(sessao);
+      navigate('/dashboard', { replace: true });
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Erro ao realizar login de demonstração.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDemoVolunteerLogin = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    setEmail('louiseagnes57@gmail.com');
+    setSenha('q1w2e3r4t5y6');
+    setLoading(true);
+    setError('');
+    try {
+      const sessao = await login('louiseagnes57@gmail.com', 'q1w2e3r4t5y6');
+      setSessao(sessao);
+      navigate('/meu-perfil', { replace: true });
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Erro ao realizar login de demonstração de voluntário.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex">
       {/* Coluna decorativa — apenas desktop */}
@@ -176,14 +210,32 @@ export default function LoginPage() {
           </form>
 
           <div className="mt-6 pt-6 border-t border-border/40 text-center space-y-3">
-             <div>
-              <button 
-                onClick={handleDemoSponsorLogin}
-                className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-400 font-extrabold text-xs rounded-xl shadow-inner border border-emerald-200/50 hover:bg-emerald-100 transition-colors uppercase tracking-wider cursor-pointer"
-              >
-                <Sparkles size={13} />
-                Entrar como Patrocinador (Demo)
-              </button>
+            <div className="flex flex-col gap-2 justify-center">
+              <div className="flex flex-col sm:flex-row gap-2 justify-center">
+                <button
+                  onClick={handleDemoOngLogin}
+                  className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-violet-50 dark:bg-violet-950/20 text-violet-700 dark:text-violet-400 font-extrabold text-xs rounded-xl shadow-inner border border-violet-200/50 hover:bg-violet-100 transition-colors uppercase tracking-wider cursor-pointer"
+                >
+                  <Sparkles size={13} />
+                  Demo ONG
+                </button>
+                <button
+                  onClick={handleDemoSponsorLogin}
+                  className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-emerald-50 dark:bg-emerald-955/20 text-emerald-700 dark:text-emerald-400 font-extrabold text-xs rounded-xl shadow-inner border border-emerald-200/50 hover:bg-emerald-100 transition-colors uppercase tracking-wider cursor-pointer"
+                >
+                  <Sparkles size={13} />
+                  Demo Patrocinador
+                </button>
+              </div>
+              <div>
+                <button
+                  onClick={handleDemoVolunteerLogin}
+                  className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-amber-50 dark:bg-amber-955/20 text-amber-700 dark:text-amber-400 font-extrabold text-xs rounded-xl shadow-inner border border-amber-200/50 hover:bg-amber-100 transition-colors uppercase tracking-wider cursor-pointer"
+                >
+                  <Sparkles size={13} />
+                  Demo Voluntário
+                </button>
+              </div>
             </div>
             <div>
               <Link to="/" className="text-xs text-muted-foreground hover:text-foreground transition-colors inline-block">
