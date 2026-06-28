@@ -16,6 +16,7 @@ import DashboardPage from '@/pages/dashboard/DashboardPage';
 import VoluntariosPage from '@/pages/dashboard/VoluntariosPage';
 import RelatoriosPage from '@/pages/dashboard/RelatoriosPage';
 import ConfiguracoesPage from '@/pages/dashboard/ConfiguracoesPage';
+import CompliancePage from '@/pages/dashboard/CompliancePage';
 import PublicTransparencyPage from '@/pages/PublicTransparencyPage';
 import OngProfilePage from '@/pages/transparency/OngProfilePage';
 import DonorPage from '@/pages/donor/DonorPage';
@@ -117,6 +118,16 @@ function AppProviders() {
               <ProtectedRoute requiredRole="ong">
                 <DashboardLayout>
                   <RelatoriosPage />
+                </DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/compliance"
+            element={
+              <ProtectedRoute requiredRole="ong">
+                <DashboardLayout>
+                  <CompliancePage />
                 </DashboardLayout>
               </ProtectedRoute>
             }

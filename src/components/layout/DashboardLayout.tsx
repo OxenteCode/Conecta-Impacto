@@ -13,6 +13,7 @@ import {
   Menu,
   X,
   Building,
+  Sparkles,
 } from 'lucide-react';
 
 interface DashboardLayoutProps {
@@ -42,6 +43,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     { to: '/dashboard', icon: LayoutDashboard, label: 'Painel Geral' },
     { to: '/dashboard/voluntarios', icon: Users, label: 'Voluntários' },
     { to: '/dashboard/relatorios', icon: BarChart3, label: 'Relatórios ESG' },
+    { to: '/dashboard/compliance', icon: Sparkles, label: 'Compliance IA' },
     { to: '/dashboard/configuracoes', icon: Settings, label: 'Configurações' },
   ];
 
