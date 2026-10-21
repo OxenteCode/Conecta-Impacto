@@ -132,7 +132,7 @@ export default function LandingPage() {
           </h1>
 
           <p className="text-lg sm:text-xl text-slate-600 dark:text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed animate-in fade-in slide-in-from-bottom-6 duration-700 delay-300">
-            A plataforma que conecta ONGs e voluntários, acolhendo quem ajuda e transformando boas ações em dados claros, transparentes e humanos.
+            A plataforma SaaS B2B que conecta ONGs operacionais a empresas patrocinadoras, convertendo ações voluntárias auditadas em relatórios ESG e vitrines de impacto.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-500">
@@ -159,8 +159,8 @@ export default function LandingPage() {
               Dados seguros
             </div>
             <div className="flex items-center gap-2 bg-white/50 dark:bg-background/50 px-4 py-2 rounded-full border border-stone-200 dark:border-border shadow-sm">
-              <Heart size={18} className="text-rose-500" />
-              Foco no bem-estar
+              <ShieldCheck size={18} className="text-emerald-600 dark:text-emerald-400" />
+              Auditoria em dupla checagem
             </div>
             <div className="flex items-center gap-2 bg-white/50 dark:bg-background/50 px-4 py-2 rounded-full border border-stone-200 dark:border-border shadow-sm">
               <Globe size={18} className="text-blue-500" />

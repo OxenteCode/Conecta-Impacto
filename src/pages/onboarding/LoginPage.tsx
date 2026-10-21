@@ -55,38 +55,33 @@ export default function LoginPage() {
     navigate('/portal-empresa', { replace: true });
   };
 
-  const handleDemoOngLogin = async (e: React.MouseEvent) => {
+  // ── DEMO BYPASS: sem chamada ao Supabase ──
+  const handleDemoOngLogin = (e: React.MouseEvent) => {
     e.preventDefault();
-    setEmail('conecta@oxentecode.com.br');
-    setSenha('123456');
-    setLoading(true);
-    setError('');
-    try {
-      const sessao = await login('conecta@oxentecode.com.br', '123456');
-      setSessao(sessao);
-      navigate('/dashboard', { replace: true });
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Erro ao realizar login de demonstração.');
-    } finally {
-      setLoading(false);
-    }
+    const demoSessao = {
+      id: 'mock-ong-demo',
+      nome: 'Gestora Conecta (ONG Demo)',
+      email: 'conecta@oxentecode.com.br',
+      role: 'ong' as const,
+      ongName: 'ONG Raízes do Bem (Demo)',
+    };
+    localStorage.setItem('conecta_impacto_session', JSON.stringify(demoSessao));
+    setSessao(demoSessao);
+    navigate('/dashboard', { replace: true });
   };
 
-  const handleDemoVolunteerLogin = async (e: React.MouseEvent) => {
+  // ── DEMO BYPASS: sem chamada ao Supabase ──
+  const handleDemoVolunteerLogin = (e: React.MouseEvent) => {
     e.preventDefault();
-    setEmail('louiseagnes57@gmail.com');
-    setSenha('q1w2e3r4t5y6');
-    setLoading(true);
-    setError('');
-    try {
-      const sessao = await login('louiseagnes57@gmail.com', 'q1w2e3r4t5y6');
-      setSessao(sessao);
-      navigate('/meu-perfil', { replace: true });
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Erro ao realizar login de demonstração de voluntário.');
-    } finally {
-      setLoading(false);
-    }
+    const demoSessao = {
+      id: 'mock-voluntario-demo',
+      nome: 'Louise Agnes (Voluntária Demo)',
+      email: 'louiseagnes57@gmail.com',
+      role: 'voluntario' as const,
+    };
+    localStorage.setItem('conecta_impacto_session', JSON.stringify(demoSessao));
+    setSessao(demoSessao);
+    navigate('/meu-perfil', { replace: true });
   };
 
   return (

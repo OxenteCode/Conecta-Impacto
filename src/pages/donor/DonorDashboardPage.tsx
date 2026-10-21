@@ -104,7 +104,7 @@ export default function DonorDashboardPage() {
               <h1 className="text-xl font-black text-slate-800 dark:text-white">{sessao?.ongName ?? sessao?.nome ?? 'Minha Empresa'}</h1>
             </div>
             <p className="text-sm text-slate-600 dark:text-slate-400">
-              Gerencie suas doações recorrentes, acesse insígnias corporativas e acompanhe a evolução do seu Bosque ESG.
+              Monitore métricas auditadas pelos gestores das ONGs, emita relatórios ESG/ODS e acompanhe a evolução da sua vitrine no Bosque do Impacto.
             </p>
           </div>
 
@@ -264,6 +264,33 @@ export default function DonorDashboardPage() {
 
             {/* Renderização da Árvore Ampliada */}
             <ImpactForest companyId={demoProfile} />
+
+            {/* ── LASTRO DE AUDITORIA (DUPLA CHECAGEM) ── */}
+            <div className="p-6 rounded-3xl border border-emerald-200 dark:border-emerald-800/40 bg-gradient-to-br from-emerald-50 to-teal-50/50 dark:from-emerald-950/20 dark:to-teal-950/10 shadow-sm space-y-4">
+              <div className="flex items-center gap-2.5">
+                <ShieldCheck size={20} className="text-emerald-600 dark:text-emerald-400" />
+                <h3 className="text-sm font-extrabold text-emerald-900 dark:text-emerald-300 uppercase tracking-widest">
+                  Lastro de Auditoria (Dupla Checagem)
+                </h3>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="flex flex-col gap-1.5 p-4 bg-white dark:bg-slate-950 rounded-2xl border border-emerald-100 dark:border-emerald-900/30 shadow-sm">
+                  <span className="text-2xl font-black text-slate-800 dark:text-white">142</span>
+                  <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wide">Evidências em Campo</span>
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 leading-snug">📷 Foto + Timestamp registrado por voluntário</span>
+                </div>
+                <div className="flex flex-col gap-1.5 p-4 bg-white dark:bg-slate-950 rounded-2xl border border-emerald-100 dark:border-emerald-900/30 shadow-sm">
+                  <span className="text-2xl font-black text-emerald-600 dark:text-emerald-400">100%</span>
+                  <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wide">Homologado</span>
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 leading-snug">✅ Aprovação manual do Gestor da ONG</span>
+                </div>
+                <div className="flex flex-col gap-1.5 p-4 bg-white dark:bg-slate-950 rounded-2xl border border-emerald-100 dark:border-emerald-900/30 shadow-sm">
+                  <span className="text-2xl font-black text-slate-800 dark:text-white">ODS</span>
+                  <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wide">Relatório Pronto</span>
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 leading-snug">📄 Download PDF disponível para exportação</span>
+                </div>
+              </div>
+            </div>
 
             {/* Métricas Corporativas ESG Extras */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
