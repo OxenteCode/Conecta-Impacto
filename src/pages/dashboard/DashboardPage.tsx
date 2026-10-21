@@ -5,7 +5,7 @@ import { getTopDonors, type TopDonor } from '@/services/donationService';
 import {
   Users, Clock, Activity, Heart, TrendingUp, AlertTriangle,
   ShieldCheck, Award, Info, FileDown, Loader2, Building2,
-  Trophy, FlaskConical,
+  Trophy, FlaskConical, Globe,
 } from 'lucide-react';
 import {
   ResponsiveContainer,
@@ -60,14 +60,39 @@ export default function DashboardPage() {
   const { sessao } = useAuth();
   const reportRef = useRef<HTMLDivElement>(null);
 
+  // ── DEMO MOCK: valores imediatos para gravação sem banco ──
+  const MOCK_ODS_DATA: OdsDataItem[] = [
+    { name: 'ODS 3',  horas: 98,  acoes: 34, fill: ODS_COLORS[3]  },
+    { name: 'ODS 9',  horas: 62,  acoes: 28, fill: ODS_COLORS[9]  },
+    { name: 'ODS 10', horas: 87,  acoes: 41, fill: ODS_COLORS[10] },
+    { name: 'ODS 16', horas: 55,  acoes: 22, fill: ODS_COLORS[16] },
+    { name: 'ODS 17', horas: 38,  acoes: 17, fill: ODS_COLORS[17] },
+  ];
+  const MOCK_EMOTION_HISTORY: EmotionPoint[] = [
+    { checked_at: '2026-10-15', avg: 72 },
+    { checked_at: '2026-10-16', avg: 88 },
+    { checked_at: '2026-10-17', avg: 95 },
+    { checked_at: '2026-10-18', avg: 110 },
+    { checked_at: '2026-10-19', avg: 128 },
+    { checked_at: '2026-10-20', avg: 142 },
+    { checked_at: '2026-10-21', avg: 138 },
+  ];
+  // Dados de evidências pendentes de aprovação (substitui distribuição emocional)
+  const MOCK_PENDING_DATA = [
+    { label: 'Aprovadas',       count: 118, fill: '#10b981', pct: 83 },
+    { label: 'Em Revisão',      count: 14,  fill: '#3b82f6', pct: 10 },
+    { label: 'Pendentes',       count: 7,   fill: '#f59e0b', pct: 5  },
+    { label: 'Recusadas',       count: 3,   fill: '#f43f5e', pct: 2  },
+  ];
+
   const [metrics, setMetrics] = useState<DashMetrics>({
-    voluntariosAtivos: 0, horasAcumuladas: 0, totalAcoes: 0, mediaEmocional: null,
+    voluntariosAtivos: 86, horasAcumuladas: 340, totalAcoes: 142, mediaEmocional: 4.9,
   });
-  const [emotionHistory, setEmotionHistory] = useState<EmotionPoint[]>([]);
+  const [emotionHistory, setEmotionHistory] = useState<EmotionPoint[]>(MOCK_EMOTION_HISTORY);
   const [recentActions, setRecentActions]   = useState<RecentAction[]>([]);
-  const [odsData, setOdsData]               = useState<OdsDataItem[]>([]);
+  const [odsData, setOdsData]               = useState<OdsDataItem[]>(MOCK_ODS_DATA);
   const [emotionBarData, setEmotionBarData] = useState<EmotionBarItem[]>([]);
-  const [loading, setLoading]               = useState(true);
+  const [loading, setLoading]               = useState(false);
   const [exporting, setExporting]           = useState(false);
   const [sponsors, setSponsors]             = useState<any[]>([]);
 
@@ -223,11 +248,10 @@ export default function DashboardPage() {
     : [];
 
   const metricCards = [
-    { label: 'Voluntários',     value: metrics.voluntariosAtivos,           icon: Users,     iconBg: 'bg-violet-600',  trend: '+4 este mês' },
-    { label: 'Horas Totais',    value: `${metrics.horasAcumuladas.toFixed(0)}h`, icon: Clock, iconBg: 'bg-blue-600', trend: 'Acumulado' },
-    { label: 'Ações de Campo',  value: metrics.totalAcoes,                  icon: Activity,  iconBg: 'bg-emerald-600', trend: 'Verificadas via RLS' },
-    { label: 'Saúde Emocional', value: metrics.mediaEmocional !== null ? `${metrics.mediaEmocional.toFixed(1)} / 5` : '—',
-      icon: Heart, iconBg: hasAlert ? 'bg-rose-600' : 'bg-teal-600', trend: hasAlert ? '⚠ Atenção necessária' : 'Equipe saudável' },
+    { label: 'Voluntários Ativos',    value: metrics.voluntariosAtivos,                    icon: Users,      iconBg: 'bg-violet-600',  trend: '+4 este mês' },
+    { label: 'Horas Auditadas',       value: `${metrics.horasAcumuladas.toFixed(0)}h`,      icon: Clock,      iconBg: 'bg-blue-600',    trend: 'Comprovadas com foto' },
+    { label: 'Ações em Campo',        value: metrics.totalAcoes,                            icon: Activity,   iconBg: 'bg-emerald-600', trend: 'Homologadas via RLS' },
+    { label: 'Taxa de Conformidade',  value: '98.4%',                                       icon: ShieldCheck, iconBg: 'bg-teal-600',   trend: 'Auditoria ODS' },
   ];
 
   return (
@@ -301,10 +325,7 @@ export default function DashboardPage() {
                   <Icon size={15} className="text-white" />
                 </div>
               </div>
-              {loading
-                ? <div className="h-8 w-24 bg-muted rounded animate-pulse" />
-                : <p className="text-2xl font-bold text-foreground">{value}</p>
-              }
+              <p className="text-2xl font-bold text-foreground">{value}</p>
               <p className="text-[11px] text-muted-foreground">{trend}</p>
             </div>
           ))}
@@ -383,47 +404,36 @@ export default function DashboardPage() {
               )}
             </div>
 
-            {/* Gráfico de linha — Evolução Emocional */}
+            {/* Gráfico de linha — Fluxo de Aprovação de Evidências */}
             <div className="print-avoid-break rounded-xl border border-border bg-card shadow-card p-6 space-y-4">
               <div className="flex items-center gap-2">
-                <Heart size={16} className="text-rose-500" />
-                <h2 className="font-semibold text-foreground">Evolução do Bem-Estar Coletivo</h2>
+                <ShieldCheck size={16} className="text-emerald-500" />
+                <h2 className="font-semibold text-foreground">Fluxo de Aprovação de Evidências</h2>
               </div>
               <p className="text-xs text-muted-foreground">
-                Média diária dos check-ins emocionais — detecta tendências de exaustão preventivamente.
+                Volume diário de check-ins de voluntários homologados pelos gestores (Dupla Checagem).
               </p>
 
-              {loading ? (
-                <div className="h-44 bg-muted/40 rounded-xl animate-pulse" />
-              ) : emotionHistory.length < 2 ? (
-                <div className="h-44 flex flex-col items-center justify-center border border-dashed border-border rounded-xl text-muted-foreground text-xs gap-2">
-                  <Heart size={24} className="opacity-20" />
-                  Dados insuficientes para gerar o gráfico de linha.
-                  <span className="opacity-60">Mínimo: 2 datas distintas de check-in.</span>
-                </div>
-              ) : (
-                <ResponsiveContainer width="100%" height={180}>
-                  <LineChart data={emotionHistory} margin={{ top: 4, right: 8, bottom: 0, left: -16 }}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--color-border))" opacity={0.5} />
-                    <XAxis
-                      dataKey="checked_at"
-                      tick={{ fontSize: 10, fill: 'hsl(var(--color-muted-foreground))' }}
-                      axisLine={false} tickLine={false}
-                      tickFormatter={d => new Date(d + 'T00:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })}
-                    />
-                    <YAxis domain={[1, 5]} ticks={[1, 2, 3, 4, 5]} tick={{ fontSize: 10, fill: 'hsl(var(--color-muted-foreground))' }} axisLine={false} tickLine={false} />
-                    <Tooltip content={<ChartTooltip />} />
-                    {/* Linha de alerta em 3.5 */}
-                    <ReferenceLine y={3.5} stroke="#f43f5e" strokeDasharray="4 4" strokeWidth={1.5} label={{ value: 'Limite', fill: '#f43f5e', fontSize: 10, position: 'insideTopRight' }} />
-                    <Line
-                      type="monotone" dataKey="avg" name="Média"
-                      stroke="#10b981" strokeWidth={2.5}
-                      dot={{ r: 4, fill: '#10b981', stroke: 'hsl(var(--color-card))', strokeWidth: 2 }}
-                      activeDot={{ r: 6 }}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              )}
+              <ResponsiveContainer width="100%" height={180}>
+                <LineChart data={MOCK_EMOTION_HISTORY} margin={{ top: 4, right: 8, bottom: 0, left: -16 }}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--color-border))" opacity={0.5} />
+                  <XAxis
+                    dataKey="checked_at"
+                    tick={{ fontSize: 10, fill: 'hsl(var(--color-muted-foreground))' }}
+                    axisLine={false} tickLine={false}
+                    tickFormatter={d => new Date(d + 'T00:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })}
+                  />
+                  <YAxis tick={{ fontSize: 10, fill: 'hsl(var(--color-muted-foreground))' }} axisLine={false} tickLine={false} />
+                  <Tooltip content={<ChartTooltip />} />
+                  <ReferenceLine y={100} stroke="#10b981" strokeDasharray="4 4" strokeWidth={1.5} label={{ value: 'Meta diária', fill: '#10b981', fontSize: 10, position: 'insideTopRight' }} />
+                  <Line
+                    type="monotone" dataKey="avg" name="Evidências"
+                    stroke="#10b981" strokeWidth={2.5}
+                    dot={{ r: 4, fill: '#10b981', stroke: 'hsl(var(--color-card))', strokeWidth: 2 }}
+                    activeDot={{ r: 6 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
             </div>
 
             {/* Log de Ações Recentes */}
@@ -593,78 +603,64 @@ export default function DashboardPage() {
             </div>
 
 
-            {/* Gauge de Saúde Organizacional */}
+            {/* Indicadores ODS (ONU) — substitui Gauge de Saúde */}
             <div className="print-avoid-break rounded-xl border border-border bg-card shadow-card p-5 space-y-3">
               <div className="flex items-center gap-2">
-                <Heart size={15} className="text-rose-500" />
-                <h3 className="font-semibold text-foreground text-sm">Índice de Saúde Org.</h3>
+                <Globe size={15} className="text-blue-500" />
+                <h3 className="font-semibold text-foreground text-sm">Indicadores ODS (ONU)</h3>
               </div>
-
-              {loading ? (
-                <div className="h-32 bg-muted/40 rounded-xl animate-pulse" />
-              ) : metrics.mediaEmocional !== null ? (
-                <>
-                  <ResponsiveContainer width="100%" height={130}>
-                    <RadialBarChart
-                      innerRadius="62%" outerRadius="90%"
-                      data={radialData} startAngle={220} endAngle={-40}
-                    >
-                      <RadialBar dataKey="value" cornerRadius={8} background={{ fill: 'hsl(var(--color-muted))' }} />
-                    </RadialBarChart>
-                  </ResponsiveContainer>
-                  <div className="text-center -mt-4">
-                    <p className={cn('text-2xl font-bold', hasAlert ? 'text-rose-500' : 'text-emerald-600 dark:text-emerald-400')}>
-                      {metrics.mediaEmocional.toFixed(1)}
-                      <span className="text-sm font-medium text-muted-foreground"> / 5</span>
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-0.5">
-                      {hasAlert ? 'Atenção necessária' : 'Equipe saudável'}
-                    </p>
-                  </div>
-                </>
-              ) : (
-                <div className="h-28 flex items-center justify-center text-xs text-muted-foreground">
-                  Sem check-ins registrados.
-                </div>
-              )}
+              <ResponsiveContainer width="100%" height={130}>
+                <RadialBarChart
+                  innerRadius="30%" outerRadius="90%"
+                  data={[
+                    { name: 'ODS 3',  value: 88,  fill: ODS_COLORS[3]  },
+                    { name: 'ODS 9',  value: 72,  fill: ODS_COLORS[9]  },
+                    { name: 'ODS 10', value: 95,  fill: ODS_COLORS[10] },
+                    { name: 'ODS 16', value: 64,  fill: ODS_COLORS[16] },
+                    { name: 'ODS 17', value: 55,  fill: ODS_COLORS[17] },
+                  ]}
+                  startAngle={180} endAngle={0}
+                >
+                  <RadialBar dataKey="value" cornerRadius={4} background={{ fill: 'hsl(var(--color-muted))' }} />
+                  <Tooltip content={<ChartTooltip />} />
+                </RadialBarChart>
+              </ResponsiveContainer>
+              <div className="text-center -mt-2">
+                <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">98.4%<span className="text-sm font-medium text-muted-foreground"> conformidade</span></p>
+                <p className="text-xs text-muted-foreground mt-0.5">5 ODS ativos · Auditoria dupla checagem</p>
+              </div>
             </div>
 
-            {/* Distribuição Emocional */}
+            {/* Evidências Pendentes de Aprovação — substitui Distribuição Emocional */}
             <div className="print-avoid-break rounded-xl border border-border bg-card shadow-card p-5 space-y-4">
               <div className="flex items-center gap-2">
-                <Activity size={15} className="text-muted-foreground" />
-                <h3 className="font-semibold text-foreground text-sm">Distribuição Emocional</h3>
+                <ShieldCheck size={15} className="text-emerald-500" />
+                <h3 className="font-semibold text-foreground text-sm">Evidências Pendentes de Aprovação</h3>
               </div>
               <p className="text-xs text-muted-foreground">
-                Frequência de estados emocionais nos check-ins da equipe.
+                Status de auditoria das evidências em campo (foto + timestamp).
               </p>
 
-              {loading ? (
-                <div className="space-y-2">
-                  {[1, 2, 3, 4, 5].map(i => <div key={i} className="h-7 bg-muted/40 rounded animate-pulse" />)}
-                </div>
-              ) : (
-                <div className="space-y-2.5">
-                  {emotionBarData.map(item => (
-                    <div key={item.label} className="space-y-1">
-                      <div className="flex justify-between text-xs">
-                        <span className="font-medium text-foreground">{item.label}</span>
-                        <span className="text-muted-foreground">{item.count}</span>
-                      </div>
-                      <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
-                        <div
-                          className="h-full rounded-full transition-all duration-700"
-                          style={{ width: `${item.pct.toFixed(1)}%`, background: item.fill }}
-                        />
-                      </div>
+              <div className="space-y-2.5">
+                {MOCK_PENDING_DATA.map(item => (
+                  <div key={item.label} className="space-y-1">
+                    <div className="flex justify-between text-xs">
+                      <span className="font-medium text-foreground">{item.label}</span>
+                      <span className="text-muted-foreground font-bold">{item.count}</span>
                     </div>
-                  ))}
-                </div>
-              )}
+                    <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
+                      <div
+                        className="h-full rounded-full transition-all duration-700"
+                        style={{ width: `${item.pct}%`, background: item.fill }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
 
-              <div className="flex items-start gap-2 p-2.5 rounded-lg bg-muted/40 border border-border text-[10px] text-muted-foreground leading-relaxed">
-                <Info size={12} className="shrink-0 mt-0.5 text-primary" />
-                Check-ins anônimos e agregados. Individualmente, nenhum dado é identificável.
+              <div className="flex items-start gap-2 p-2.5 rounded-lg bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-200 dark:border-emerald-800/30 text-[10px] text-emerald-700 dark:text-emerald-400 leading-relaxed">
+                <ShieldCheck size={12} className="shrink-0 mt-0.5" />
+                Homologação manual obrigatória pelo Gestor da ONG antes da emissão do relatório ESG.
               </div>
             </div>
 
