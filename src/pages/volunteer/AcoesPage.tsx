@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/lib/supabaseClient';
 import { cn } from '@/lib/utils';
@@ -8,8 +8,10 @@ import {
   Clock,
   Sparkles,
   ShieldCheck,
-  Bookmark
+  Bookmark,
+  Camera,
 } from 'lucide-react';
+import CheckInCamera from '@/components/shared/CheckInCamera';
 
 interface ActionForm {
   descricao: string;
@@ -39,6 +41,7 @@ export default function AcoesPage() {
   const [history, setHistory] = useState<UserAction[]>([]);
   const [loading, setLoading] = useState(true);
   const [ongId, setOngId] = useState<string | null>(null);
+  const [showCheckIn, setShowCheckIn] = useState(false);
 
   useEffect(() => {
     document.title = 'Minhas Ações — Raízes do Bem';
@@ -114,6 +117,35 @@ export default function AcoesPage() {
   return (
     <div className="max-w-md mx-auto px-4 py-6 pb-24 md:pb-8 space-y-6 animate-in fade-in duration-500">
       
+      {/* â”€â”€ Check-in em Campo â”€â”€ */}
+      {showCheckIn ? (
+        <CheckInCamera
+          onSuccess={() => {
+            setTimeout(() => setShowCheckIn(false), 2200);
+          }}
+          onClose={() => setShowCheckIn(false)}
+        />
+      ) : (
+        <button
+          onClick={() => setShowCheckIn(true)}
+          className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-emerald-500/25 bg-gradient-to-r from-emerald-500/8 to-teal-500/8 hover:from-emerald-500/15 hover:to-teal-500/15 hover:border-emerald-500/40 transition-all duration-200 group"
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform">
+              <Camera size={16} className="text-white" />
+            </div>
+            <div className="text-left">
+              <p className="text-sm font-bold text-foreground leading-tight">Check-in em Campo</p>
+              <p className="text-[10px] text-muted-foreground">Foto + carimbo auditÃ¡vel â†’ Supabase</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-1.5 text-[10px] text-emerald-400 font-bold">
+            <ShieldCheck size={13} />
+            <span>Abrir</span>
+          </div>
+        </button>
+      )}
+
       {/* Page Header */}
       <div>
         <h1 className="text-2xl font-black tracking-tight bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
